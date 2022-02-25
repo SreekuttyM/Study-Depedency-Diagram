@@ -1,19 +1,45 @@
 import UIKit
+
 protocol FeedLoader {
-    func loadFeed(completion :(([String]) -> Void))
+    func loadFeed(completion : @escaping (([String]) -> Void))
 }
+
 class FeedViewController : UIViewController {
     var loader : FeedLoader!
-    
-    convenience init(loader :FeedLoader) {
+    var remoteLoader : RemoteFeedLoader!
+    var localLoader : LocalFeedLoader!
+
+    convenience init(remoteLoader :RemoteFeedLoader, localLoader : LocalFeedLoader) {
         self.init()
-        self.loader = loader
+        self.remoteLoader = remoteLoader
+        self.localLoader = localLoader
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loader.loadFeed { loadItems in
-            
+       //if internet connection
+        remoteLoader.loadFeed { loadItems in
         }
+    //} else {
+        localLoader.loadFeed { loadItems in
+        }
+    //}
     }
 }
+
+class RemoteFeedLoader : FeedLoader { //from api
+    func loadFeed(completion:@escaping (([String]) -> Void)) {
+    
+    }
+}
+
+
+class LocalFeedLoader : FeedLoader {//fecth from predefined json in bundle or local cache
+    func loadFeed(completion:@escaping (([String]) -> Void)) {
+        
+    }
+}
+
+
+    
