@@ -1,16 +1,18 @@
 import UIKit
-typealias FeedLoader = ((([String]) -> Void) -> Void)
+protocol FeedLoader {
+    func loadFeed(completion :(([String]) -> Void))
+}
 class FeedViewController : UIViewController {
-    var loadFeed : FeedLoader!
+    var loader : FeedLoader!
     
-    convenience init(loadFeed :@escaping FeedLoader) {
+    convenience init(loader :FeedLoader) {
         self.init()
-        self.loadFeed = loadFeed
+        self.loader = loader
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadFeed { loadItems in
+        loader.loadFeed { loadItems in
             
         }
     }
